@@ -1,0 +1,7 @@
+.main_wrap {
+}
+
+.main_wrap > .main_img {
+    width: 100%;
+    height: 800px;
+}
