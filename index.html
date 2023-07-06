@@ -4,13 +4,32 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
-        <link rel="stylesheet" href="css/bootstrap-grid.min.css" />
+        <!-- css -->
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/swiper.css" />
         <link rel="stylesheet" href="css/main.css" />
+        <!-- js -->
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/swiper.js"></script>
+        <script src="js/main.js"></script>
     </head>
     <body>
-        <div class="main_wrap">
-            <img class="main_img" src="img/main.jpg" />
+        <div class="container" style="background-image: url(img/main.jpg)">
+            <div class="main_wrap">
+                <h2>Kim Chul-Su SALON</h2>
+                <p>LastLine</p>
+                <button>welcome</button>
+            </div>
         </div>
+        <!-- Swiper -->
+        <div class="container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"></div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     </body>
 </html>
