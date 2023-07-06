@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            #map-container {
+                display: flex;
+            }
+
+            #map {
+                width: 500px;
+                height: 500px;
+            }
+
+            #locations {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 18px;
+            }
+
+            .location {
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+
+            body {
+                font-family: 'Great Vibes', cursive;
+            }
+
+            header {
+                background-color: black;
+                border: 1px solid white;
+                width: 100%;
+                z-index: 2;
+            }
+
+            .wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 75px;
+                padding: 0 20px;
+                justify-content: center;
+            }
+
+            h1 {
+                color: white;
+                margin: 0;
+            }
+
+            .menu {
+                list-style-type: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            .menu li {
+                display: inline-block;
+                margin-left: 10px;
+            }
+
+            .menu a {
+                color: white;
+                padding: 10px;
+                text-decoration: none;
+            }
+
+            @font-face {
+                font-family: 'GmarketSansMedium';
+                src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+                    format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <header style="position: fixed; top: 0">
+            <div class="wrapper">
+                <h1>CHULSOO SAlON</h1>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="#">Login</a></li>
+                    <li><a href="#">Reservation</a></li>
+                    <li><a href="#">My Reservation Confirmation</a></li>
+                </ul>
+            </nav>
+        </header>
+    </body>
+</html>

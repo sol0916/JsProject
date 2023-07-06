@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/calendar.css" />
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/calendar.js"></script>
+        <style>
+            .visual_bg {
+                background-image: url(img/intro_visual.jpg);
+                position: absolute;
+                left: 0;
+                top: 50px;
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 350px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                z-index: -1;
+            }
+            .visual_bg_2 {
+                background-color: black;
+
+                left: 0;
+
+                bottom: 0;
+                right: 0;
+                width: 100%;
+                height: 200px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                z-index: -1;
+            }
+            .testhead {
+                position: fixed;
+                height: 100px;
+                background-color: black;
+                color: white;
+                text-align: center;
+            }
+        </style>
+        <script>
+            function loadHeaderFooter() {
+                // 헤더 가져오기
+                fetch('header.html')
+                    .then((response) => response.text())
+                    .then((html) => {
+                        const headerElement = document.querySelector('header');
+                        headerElement.innerHTML = html;
+                    });
+
+                // 푸터 가져오기
+                fetch('footer.html')
+                    .then((response) => response.text())
+                    .then((html) => {
+                        const footerElement = document.querySelector('footer');
+                        footerElement.innerHTML = html;
+                    });
+            }
+
+            // 페이지 로드 시 헤더와 푸터 로드
+            window.addEventListener('DOMContentLoaded', loadHeaderFooter);
+        </script>
+    </head>
+    <body>
+        <div class="container-fluid testhead">
+            <div class="row">
+                <div class="col-lg-5"></div>
+                <div class="col-lg-1"><h4>lorasndfuonawe</h4></div>
+                <div class="col-lg-5"></div>
+                <div class="col-lg-1">login</div>
+            </div>
+        </div>
+        <div class="visual_bg"></div>
+
+        <div class="container text-center" style="padding-top: 400px">
+            <div
+                class="row align-items-center"
+                style="
+                    height: 500px;
+                    border-top: 1px solid #b98959;
+                    border-bottom: 1px solid #b98959;
+                    margin-bottom: 100px;
+                "
+            >
+                <!-- 왼쪽 공간 띄우려고 2칸 비운 곳 -->
+                <div class="col-lg-2"></div>
+                <!-- 디자이너 프로필 이미지 4칸 -->
+                <div class="col-lg-4">
+                    <img
+                        src="img/Braid Hairstyles_ Loop Waterfall Braid - Luxy® Hair.jpg"
+                        alt=""
+                        style="height: 400px; border: 2px solid black"
+                    />
+                </div>
+                <!-- 오른쪽 예약 정보 받을 5칸 -->
+                <div class="col-lg-5">
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">선택한 날짜</span>
+                        <input type="text" class="form-control choiced" disabled />
+                        <div
+                            class="modal fade"
+                            id="dateModal"
+                            tabindex="-1"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel" style="margin: 0 auto">
+                                            예약 날짜 선택
+                                        </h1>
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                        ></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="Calendar">
+                                            <thead>
+                                                <tr>
+                                                    <td onClick="prevCalendar();" style="cursor: pointer">&#60;</td>
+                                                    <td colspan="5">
+                                                        <span id="calYear"></span>년 <span id="calMonth"></span>월
+                                                    </td>
+                                                    <td onClick="nextCalendar();" style="cursor: pointer">&#62;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>일</td>
+                                                    <td>월</td>
+                                                    <td>화</td>
+                                                    <td>수</td>
+                                                    <td>목</td>
+                                                    <td>금</td>
+                                                    <td>토</td>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            선택하기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            style="background-color: #b98959; border: none"
+                            data-bs-toggle="modal"
+                            data-bs-target="#dateModal"
+                        >
+                            날짜 선택
+                        </button>
+                    </div>
+                    <!-- *************************************** -->
+                    <div class="input-group flex-nowrap">
+                        <span class="input-group-text" id="addon-wrapping">시간 선택</span>
+                        <input type="text" class="form-control tchoiced" disabled />
+                        <div
+                            class="modal fade"
+                            id="timeModal"
+                            tabindex="-1"
+                            aria-labelledby="timeModalLabel"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="timeModalLabel" style="margin: 0 auto">
+                                            예약 시간 선택
+                                        </h1>
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"
+                                        ></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table timetable">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            선택하기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#timeModal"
+                            style="background-color: #b98959; border: none"
+                        >
+                            시간 선택
+                        </button>
+                    </div>
+                    <!-- 아코디언 시작 -->
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button
+                                    class="accordion-button"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne"
+                                    aria-expanded="true"
+                                    aria-controls="collapseOne"
+                                >
+                                    시술 메뉴 선택
+                                </button>
+                            </h2>
+                            <div
+                                id="collapseOne"
+                                class="accordion-collapse collapse show"
+                                aria-labelledby="headingOne"
+                                data-bs-parent="#accordionExample"
+                            >
+                                <!-- 아코디언 바디 -->
+                                <div class="accordion-body">
+                                    <!-- 네비바 탭 -->
+                                    <ul class="nav nav-tabs menutab">
+                                        <li class="nav-item">
+                                            <a class="nav-link cutnav" aria-current="page" href="#">컷</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link permnav active" href="#">펌</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link colornav" href="#">컬러</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link clinicnav" href="#">클리닉</a>
+                                        </li>
+                                    </ul>
+                                    <!-- 네비바 탭 끝 -->
+                                    <!-- 네비바 안에 탭에 따라 보여질 div 부분 (컷, 펌, 컬러, 클리닉) -->
+                                    <div class="cutmenu" style="display: ">
+                                        <!-- check form 하나 라벨까지 -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 컷 </label>
+                                        </div>
+                                        <!-- check fomr 하나 끝  -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value="cut_1"
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckChecked"> 남자컷 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 여자컷 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Default checkbox
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- 메뉴 div 끝 -->
+                                    <!-- 펌메뉴 시작 -->
+                                    <div class="permmenu" style="display: none">
+                                        <!-- check form 하나 라벨까지 -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 1번 펌 </label>
+                                        </div>
+                                        <!-- check fomr 하나 끝  -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckChecked"> 2번 펌 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 3번 펌 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Default checkbox
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- 펌메뉴  끝 -->
+                                    <!-- 펌메뉴 시작 -->
+                                    <div class="permmenu" style="display: none">
+                                        <!-- check form 하나 라벨까지 -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 1번 펌 </label>
+                                        </div>
+                                        <!-- check fomr 하나 끝  -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckChecked"> 2번 펌 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 3번 펌 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Default checkbox
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- 펌메뉴  끝 -->
+                                    <!-- 칼라메뉴 시작 -->
+                                    <div class="colormenu" style="display: none">
+                                        <!-- check form 하나 라벨까지 -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 1번 칼라 </label>
+                                        </div>
+                                        <!-- check fomr 하나 끝  -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckChecked"> 2번 칼라 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 3번 칼라 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Default checkbox
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- 칼라메뉴  끝 -->
+                                    <!-- 클리닉메뉴 시작 -->
+                                    <div class="clinicmenu" style="display: none">
+                                        <!-- check form 하나 라벨까지 -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 1번 클리닉 </label>
+                                        </div>
+                                        <!-- check fomr 하나 끝  -->
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckChecked"> 2번 클리닉 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault"> 3번 클리닉 </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                id="flexCheckDefault"
+                                            />
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Default checkbox
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- 클리닉메뉴  끝 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 오른쪽 섹션 아코디언 아래 -->
+                    <!-- 예약하기 modal -->
+                    <button
+                        type="button"
+                        class="btn btn-primary reservbtn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#reservModal"
+                    >
+                        예약 하기
+                    </button>
+
+                    <!-- Modal -->
+                    <div
+                        class="modal fade"
+                        id="reservModal"
+                        tabindex="-1"
+                        aria-labelledby="exampleModalLabel"
+                        aria-hidden="true"
+                    >
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">예약 내역</h1>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    ></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">예약자 성명</th>
+                                                <td class="rename">Mark</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">예약 날짜</th>
+                                                <td class="redate">Jacob</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">예약 시간</th>
+                                                <td colspan="2" class="retime">Larry the Bird</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">시술 메뉴</th>
+                                                <td colspan="2" class="remenu">Larry the Bird</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">총 금액</th>
+                                                <td colspan="2" class="totalprice">Larry the Bird</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button " class="btn btn-secondary paybtn" data-bs-dismiss="modal">
+                                        결제하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 예약하기 모달 끝 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 임시 푸터 -->
+        <div class="visual_bg_2"></div>
+
+        <!-- 내 스크립트 시작 -->
+        <script>
+            /* 시간 선택 타임 테이블 */
+            var startTime1 = new Date();
+            startTime1.setHours(9, 0, 0); // 시작 시간 설정 (9시 0분 0초)
+
+            var endTime1 = new Date();
+            endTime1.setHours(22, 0, 0); // 종료 시간 설정 (22시 0분 0초)
+
+            var interval1 = 30; // 30분 간격
+
+            var table1 = document.querySelector('.timetable > tbody');
+
+            while (startTime1 <= endTime1) {
+                var row1 = table1.insertRow();
+                for (var i = 0; i < 4; i++) {
+                    var timeCell = row1.insertCell();
+                    timeCell.innerHTML = startTime1.getHours() + ':' + ('0' + startTime1.getMinutes()).slice(-2);
+                    startTime1.setMinutes(startTime1.getMinutes() + interval1);
+                }
+            }
+            var tchoiced = document.querySelector('.tchoiced');
+            table1.onclick = function (params) {
+                var arr = document.querySelectorAll('.choicetime');
+                if (arr.length > 0) {
+                    for (var m = 0; m < arr.length; m++) {
+                        arr[m].classList.remove('choicetime');
+                    }
+                }
+                if (event.target.tagName != 'TD') {
+                    return;
+                }
+                event.target.classList.add('choicetime');
+
+                tchoiced.value = event.target.innerHTML;
+            };
+
+            /* 시술 메뉴 선택 토글 */
+            var menutab = document.querySelector('.menutab');
+            menutab.onclick = () => {
+                if (event.target.tagName != 'A') {
+                    return;
+                }
+                var menuarr = document.querySelectorAll('.menutab > .nav-item > .active');
+                if (menuarr.length > 0) {
+                    for (var m = 0; m < menuarr.length; m++) {
+                        menuarr[m].classList.remove('active');
+                    }
+                }
+                event.target.classList.add('active');
+
+                changenave(event.target);
+            };
+
+            function changenave(params) {
+                if (params.classList.contains('cutnav')) {
+                    document.querySelector('.cutmenu').style.display = '';
+                    document.querySelector('.permmenu').style.display = 'none';
+                    document.querySelector('.colormenu').style.display = 'none';
+                    document.querySelector('.clinicmenu').style.display = 'none';
+                } else if (params.classList.contains('permnav')) {
+                    document.querySelector('.cutmenu').style.display = 'none';
+                    document.querySelector('.permmenu').style.display = '';
+                    document.querySelector('.colormenu').style.display = 'none';
+                    document.querySelector('.clinicmenu').style.display = 'none';
+                } else if (params.classList.contains('colornav')) {
+                    document.querySelector('.cutmenu').style.display = 'none';
+                    document.querySelector('.permmenu').style.display = 'none';
+                    document.querySelector('.colormenu').style.display = '';
+                    document.querySelector('.clinicmenu').style.display = 'none';
+                } else if (params.classList.contains('clinicnav')) {
+                    document.querySelector('.cutmenu').style.display = 'none';
+                    document.querySelector('.permmenu').style.display = 'none';
+                    document.querySelector('.colormenu').style.display = 'none';
+                    document.querySelector('.clinicmenu').style.display = '';
+                }
+            }
+
+            /* 예약하기 버튼 */
+            var reservbtn = document.querySelector('.reservbtn');
+            reservbtn.onclick = () => {
+                var checkedarr = [];
+                var chdate = document.querySelector('.choiced').value;
+                var chtime = document.querySelector('.tchoiced').value;
+                var checkarr = document.querySelectorAll('.form-check-input');
+                for (var l = 0; l < checkarr.length; l++) {
+                    if (checkarr[l].checked) {
+                        checkedarr.push(checkarr[l].nextElementSibling.innerHTML.trim());
+                        //console.log(checkarr[l].nextElementSibling.innerHTML);
+                    }
+                }
+                var rename = document.querySelector('.rename');
+                document.querySelector('.redate').innerHTML = chdate;
+                var retime = (document.querySelector('.retime').innerHTML = chtime);
+                var remenu = (document.querySelector('.remenu').innerHTML = checkedarr[0]);
+                var totalprice = document.querySelector('.totalprice');
+            };
+
+            /* 결제버튼 */
+            var paybtn = document.querySelector('.paybtn');
+            paybtn.onclick = () => {
+                var IMP = window.IMP;
+                IMP.init('imp46754522');
+                IMP.request_pay(
+                    {
+                        pg: 'kakaopay',
+                        pay_method: 'card',
+                        merchant_uid: 'merchant_' + new Date().getTime(),
+                        name: '결제',
+                        amount: 3,
+                        buyer_email: '구매자 이메일',
+                        buyer_name: '구매자 이름',
+                        buyer_tel: '구매자 번호',
+                        /*  buyer_addr: '구매자 주소',
+            buyer_postcode: '구매자 주소', */
+                        m_redirect_url: 'http://127.0.0.1:5500/pro/index.html#',
+                    },
+                    function (rsp) {
+                        /* 결제 성공 시 */
+                        if (rsp.success) {
+                            var msg = '결제가 완료되었습니다.';
+
+                            var reservinfo = {
+                                name: '김철수',
+                                phone: '010-4567-4567',
+                                date: document.querySelector('.redate').innerHTML,
+                                time: document.querySelector('.retime').innerHTML,
+                                menu: document.querySelector('.remenu').innerHTML,
+                                price: document.querySelector('.totalprice').innerHTML,
+                            };
+
+                            var jsoninfo = JSON.stringify(reservinfo);
+
+                            sessionStorage.setItem('reservinfo', jsoninfo);
+
+                            location.href = 'http://127.0.0.1:5500/pro/indext2.html';
+                        } else {
+                            var msg = '결제에 실패하였습니다.';
+                            rsp.error_msg;
+                        }
+                    }
+                );
+            };
+        </script>
+        <!-- jQuery -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <!-- iamport.payment.js -->
+        <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+    </body>
+</html>
