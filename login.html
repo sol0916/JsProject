@@ -6,7 +6,11 @@
         <title>Document</title>
         <!-- 카카오 SDK로드 -->
         <script src="js/kakao.min.js"></script>
-        <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script>
+        <!--  <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script> -->
+        <script src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <!-- <script src="js/jquery-1.11.3.min.js"></script> -->
         <style>
             * {
                 margin: 0;
@@ -36,30 +40,17 @@
                 font-family: 'IvyMode', sans-serif;
                 font-weight: 200;
             }
+            
         </style>
     </head>
     <body>
         <div class="wrap">
             <div class="container">
-                <div class="arch-text">
-                    <text class="cls-1" transform="matrix(0.01, -1, 1, 0.01, 391.44, 1069.66)">C</text>
-                    <text class="cls-1" transform="matrix(0.19, -0.98, 0.98, 0.19, 390.8, 966.29)">h</text>
-                    <text class="cls-1" transform="matrix(0.37, -0.93, 0.93, 0.37, 409.95, 864.66)">u</text>
-                    <text class="cls-1" transform="matrix(0.49, -0.87, 0.87, 0.49, 448.79, 771.96)">l</text>
-                    <text class="cls-1" transform="matrix(0.65, -0.76, 0.76, 0.65, 454.27, 742.28)">S</text>
-                    <text class="cls-1" transform="matrix(0.83, -0.56, 0.56, 0.83, 580.07, 601.86)">o</text>
-                    <text class="cls-1" transform="matrix(0.89, -0.45, 0.45, 0.89, 668.39, 544.33)">o</text>
-                    <text class="cls-1" transform="matrix(0.93, -0.37, 0.37, 0.93, 693.3, 530.35)"> </text>
-                    <text class="cls-1" transform="matrix(0.97, -0.24, 0.24, 0.97, 745.41, 506.57)">S</text>
-                    <text class="cls-1" transform="matrix(0.99, -0.11, 0.11, 0.99, 843.32, 483.92)">a</text>
-                    <text class="cls-1" transform="matrix(1, 0.04, -0.04, 1, 877.61, 475.16)">l</text>
-                    <text class="cls-1" transform="matrix(0.98, 0.2, -0.2, 0.98, 1011.19, 483.87)">o</text>
-                    <text class="cls-1" transform="matrix(0.95, 0.32, -0.32, 0.95, 1046.92, 488.28)">n</text>
-                </div>
-
                 <div class="chulsoo">
                     <img src="img/chulsoo.gif" />
                 </div>
+                <input type="text" alt="">
+                <input type="text" alt="">
                 <!-- 카카오 로그인 -->
                 <div class="kakao-login">
                     <a id="kakao-login-btn" href="javascript:loginWithKakao()">
@@ -71,10 +62,13 @@
                     </a>
                     <p id="token-result"></p>
                     <!-- 네이버 로그인 -->
-                    <div class="naver-login">
+                    <!-- 네이버 로그인 버튼 노출 영역 -->
+                    <div id="naver_id_login">
+                        <!-- </div>
+                    <div class="naver-login"> -->
                         <!-- 아래와같이 아이디를 꼭 써준다. -->
-                        <a id="naverIdLogin_loginButton" href="javascript:void(0)">
-                            <img src="img/btnG_완성형.png" width="222" alt="네이버 로그인 버튼" />
+                        <a id="naverIdLogin_loginButton" href="javascript:void(0)" >
+                            <img src="img/btnG_완성형.png"  alt="네이버 로그인 버튼" />
                         </a>
                     </div>
                 </div>
@@ -94,88 +88,56 @@
                 });
             }
 
-            //카카오 서버에서 인가 코드를 url주소를 담아서 보내줍니다.
-            //3. 인가코드 얻기
-
-            var urlSearch = new URLSearchParams(location.search);
-
-            var value = urlSearch.get('code');
-
-            //4. 토큰발급 받기
-            if (value != null) {
-                ajax();
-            }
-
-            function ajax() {
-                var url = 'http://127.0.0.1:5500/index.html';
-                var key = '2fc89e2b2cc7e6d613cf18b688742adc';
-
-                var data =
-                    'grant_type=authorization_code' + '&client_id=' + key + '&redirect_uri=' + url + '&code=' + value;
-
-                //토큰 요청
-                fetch('https://kauth.kakao.com/oauth/token', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', //폼형식 (키=값&키=값)
-                    },
-                    body: data,
-                })
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        //브라우저 종료시에 모두 삭제
-                        //쿠키&세션스토리지에 토큰 값
-                        sessionStorage.setItem('kakao_access', data.access_token);
-
-                        //사용자 정보 API 호출하기
-                        getUser(data.access_token);
-                    });
-            }
-
-            //5. 토큰기반으로 API호출하기 JS로 처리
-            function getUser(token) {
-                fetch('https://kapi.kakao.com/v2/user/me', {
-                    mathod: 'post',
-                    headers: {
-                        Authorization: 'Bearer ' + token, //띄어쓰기 무조건 하기
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-                    },
-                })
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        console.log(data);
-                    });
-            }
         </script>
 
         <!-- 네이버 로그인 -->
 
-        <script>
-            var naverLogin = new naver.LoginWithNaverId({
-                clientId: 'uOMFoMjRqSv7m2uAIhIF', //내 애플리케이션 정보에 cliendId를 입력해줍니다.
-                callbackUrl: 'http://127.0.0.1:5500/index.html/naverLogin', // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
-                isPopup: false,
-                callbackHandle: true,
-            });
+        <!-- //네이버 로그인 버튼 노출 영역 -->
+        <script type="text/javascript">
+            
+            var naver_id_login = new naver_id_login('uOMFoMjRqSv7m2uAIhIF', 'http://127.0.0.1:5500/index.html');         
+            var state = naver_id_login.getUniqState();
+            naver_id_login.setButton('green', 3, 48);
+            naver_id_login.setDomain('http://127.0.0.1:5500/login.html');
+            naver_id_login.setState(state);
+            naver_id_login.init_naver_id_login();            
+            </script>
 
-            naverLogin.init();
+<!-- <script>
 
-            window.addEventListener('load', function () {
-                naverLogin.getLoginStatus(function (status) {
+    var naverLogin = new naver.LoginWithNaverId({
+        clientId: 'uOMFoMjRqSv7m2uAIhIF', //내 애플리케이션 정보에 cliendId를 입력해줍니다.
+        callbackUrl: 'http://127.0.0.1:5500/index.html', // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+        isPopup: false,
+        callbackHandle: true,
+    });
+    naverLogin.init();
+    
+    window.addEventListener('load', function () {
+        naverLogin.getLoginStatus(function (status) {
+            console.log(naverLogin.user);
+
                     if (status) {
-                        var email = naverLogin.user.getEmail(); // 필수로 설정할것을 받아와 아래처럼 조건문을 줍니다.
+                        var name = naverLogin.user.getName();
+                        var mobile = naverLogin.user.getMobile();
 
-                        console.log(naverLogin.user);
-
-                        if (email == undefined || email == null) {
-                            alert('이메일은 필수정보입니다. 정보제공을 동의해주세요.');
+                        if (name == undefined || name == null) {
+                            alert('이름은 필수정보입니다. 정보제공을 동의해주세요.');
+                            naverLogin.reprompt();
+                            return;
+                        } else if (mobile == undefined || mobile == null) {
+                            alert('핸드폰 번호는 필수정보입니다. 정보제공을 동의해주세요.');
                             naverLogin.reprompt();
                             return;
                         }
+
+                        var info = new Array();
+                        info.push(getName());
+                        info.push(mobile);
+
+                        localStorage.setItem('info', JSON.stringify(info));
+
+                        console.log(localStorage.getItem('info'));
                     } else {
                         console.log('callback 처리에 실패하였습니다.');
                     }
@@ -199,7 +161,7 @@
                 setTimeout(function () {
                     closePopUp();
                 }, 1000);
-            }
+            } -->
         </script>
     </body>
 </html>
